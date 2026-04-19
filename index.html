@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXENEST | Professional Gear Solutions</title>
+    <style>
+        @import url('https://googleapis.com');
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #000; font-family: 'Roboto', sans-serif; color: #fff; }
+        
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; text-align: center;
+            background: radial-gradient(circle, rgba(40,40,40,0.8) 0%, rgba(0,0,0,1) 80%);
+        }
+
+        h1 { font-family: 'Permanent Marker', cursive; font-size: 5rem; text-transform: uppercase; font-style: italic; margin: 0; }
+        p { font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; opacity: 0.8; }
+        .btn { padding: 12px 40px; border: 1px solid #fff; background: transparent; color: white; font-weight: 700; text-transform: uppercase; margin-top: 40px; cursor: pointer; }
+
+        /* This container will be forced into native fullscreen */
+        #video-container { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: #000; display: none; z-index: 200;
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>AXENEST</h1>
+        <p>Play fast, stay organized — all in one stand.</p>
+        <div class="btn" onclick="goFullRick()">Shop Now</div>
+    </div>
+
+    <div id="video-container">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        function goFullRick() {
+            const container = document.getElementById('video-container');
+            const overlay = document.getElementById('overlay');
+
+            // 1. Show the container
+            container.style.display = 'block';
+            overlay.style.display = 'none';
+
+            // 2. Inject the YouTube Iframe
+            container.innerHTML = `
+                <iframe 
+                    src="https://youtube.com" 
+                    allow="autoplay; fullscreen">
+                </iframe>`;
+
+            // 3. Request Native Fullscreen (This is the magic part)
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) { /* Safari */
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) { /* IE11 */
+                container.msRequestFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
