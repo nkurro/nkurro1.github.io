@@ -11,7 +11,7 @@
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100; text-align: center;
+            z-index: 100; cursor: pointer; text-align: center;
             background: radial-gradient(circle, rgba(40,40,40,0.8) 0%, rgba(0,0,0,1) 80%);
         }
 
@@ -19,12 +19,8 @@
         p { font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; opacity: 0.8; }
         .btn { padding: 12px 40px; border: 1px solid #fff; background: transparent; color: white; font-weight: 700; text-transform: uppercase; margin-top: 40px; cursor: pointer; }
 
-        /* This container will be forced into native fullscreen */
-        #video-container { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000; display: none; z-index: 200;
-        }
-        iframe { width: 100%; height: 100%; border: none; }
+        #video-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; display: none; z-index: 200; }
+        video { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -32,36 +28,32 @@
     <div id="overlay">
         <h1>AXENEST</h1>
         <p>Play fast, stay organized — all in one stand.</p>
-        <div class="btn" onclick="goFullRick()">Shop Now</div>
+        <div class="btn" onclick="startPrank()">Shop Now</div>
     </div>
 
     <div id="video-container">
-        <div id="player"></div>
+        <!-- Ensure the video file is named 'rickroll.mp4' and is in the same folder -->
+        <video id="myVideo">
+            <source src="rickroll.mp4" type="video/mp4">
+        </video>
     </div>
 
     <script>
-        function goFullRick() {
+        function startPrank() {
+            const video = document.getElementById('myVideo');
             const container = document.getElementById('video-container');
             const overlay = document.getElementById('overlay');
 
-            // 1. Show the container
             container.style.display = 'block';
             overlay.style.display = 'none';
 
-            // 2. Inject the YouTube Iframe
-            container.innerHTML = `
-                <iframe 
-                    src="https://youtube.com" 
-                    allow="autoplay; fullscreen">
-                </iframe>`;
+            video.play(); // This works because it follows a user click
 
-            // 3. Request Native Fullscreen (This is the magic part)
+            // Optional: Force actual fullscreen
             if (container.requestFullscreen) {
                 container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) { /* Safari */
+            } else if (container.webkitRequestFullscreen) {
                 container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) { /* IE11 */
-                container.msRequestFullscreen();
             }
         }
     </script>
